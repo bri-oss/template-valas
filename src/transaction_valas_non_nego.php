@@ -35,7 +35,7 @@ $date = new DateTime("now", new DateTimeZone("UTC"));
 
 $timestamp = $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
 
-$response = $valas->infoKursCounter(
+$response = $valas->transactionValasNonNego(
   $clientSecret,
   $partnerId,
   $baseUrl,
