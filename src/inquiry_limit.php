@@ -35,13 +35,16 @@ $date = new DateTime("now", new DateTimeZone("UTC"));
 
 $timestamp = $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
 
+$debitAccount = '';
+$partnerCode = '';
+
 $response = $valas->inquiryLimit(
   $clientSecret,
-  $partnerId,
   $baseUrl,
   $accessToken,
-  $channelId,
-  $timestamp
+  $timestamp,
+  $debitAccount,
+  $partnerCode
 );
 
 echo $response;

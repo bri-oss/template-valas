@@ -16,11 +16,6 @@ $clientSecret = $_ENV['CONSUMER_SECRET']; // customer secret
 // url path values
 $baseUrl = 'https://sandbox.partner.api.bri.co.id'; //base url
 
-
-// change variables accordingly
-$partnerId = 'feedloop'; //partner id
-$channelId = '12345'; // channel id
-
 $getAccessToken = new GetAccessToken();
 
 $accessToken = $getAccessToken->getBRIAPI(
@@ -35,13 +30,30 @@ $date = new DateTime("now", new DateTimeZone("UTC"));
 
 $timestamp = $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
 
+$debitAccount = '';
+$creditAccount = '';
+$dealCode = '';
+$remark = '';
+$partnerReferenceNo = '';
+$underlyingReference = ''; // optional
+$partnerCode = '';
+
+$body = [
+  'debitAccount' => $debitAccount,
+  'creditAccount' => $creditAccount,
+  'dealCode' => $dealCode,
+  'remark' => $remark,
+  'partnerReferenceNo' => $partnerReferenceNo,
+  'underlyingReference' => $underlyingReference
+];
+
 $response = $valas->transactionValas(
   $clientSecret,
-  $partnerId,
   $baseUrl,
   $accessToken,
-  $channelId,
-  $timestamp
+  $timestamp,
+  $body,
+  $partnerCode
 );
 
 echo $response;

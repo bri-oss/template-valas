@@ -16,11 +16,6 @@ $clientSecret = $_ENV['CONSUMER_SECRET']; // customer secret
 // url path values
 $baseUrl = 'https://sandbox.partner.api.bri.co.id'; //base url
 
-
-// change variables accordingly
-$partnerId = 'feedloop'; //partner id
-$channelId = '12345'; // channel id
-
 $getAccessToken = new GetAccessToken();
 
 $accessToken = $getAccessToken->getBRIAPI(
@@ -35,13 +30,27 @@ $date = new DateTime("now", new DateTimeZone("UTC"));
 
 $timestamp = $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
 
+$path = ''; // assets/image.png
+$fileName = basename($path);
+$type = pathinfo($path, PATHINFO_EXTENSION);
+$data = file_get_contents($path);
+$base64 = base64_encode($data);
+
+// echo new CURLFile($base64);
+$body = [
+  'fileData' => $base64,
+  'fileName' => $fileName
+];
+
+$partnerCode = '';
+
 $response = $valas->uploadUnderlying(
   $clientSecret,
-  $partnerId,
   $baseUrl,
   $accessToken,
-  $channelId,
-  $timestamp
+  $timestamp,
+  $partnerCode,
+  $body
 );
 
 echo $response;

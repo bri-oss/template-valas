@@ -1,16 +1,29 @@
-# Template-informasi-rekening-php
+# Template Valas
 
-This is a simple template for Virtual Account SNAP BI using PHP.
+This is a simple template for Valas 2.0 NON SNAP using PHP.
 
 module:
-- [Virtual Account - Briva Online](https://developers.bri.co.id/en/snap-bi/apidocs-virtual-account-briva-online-snap-bi)
-- [Virtual Account - Briva WS](https://developers.bri.co.id/en/snap-bi/apidocs-virtual-account-briva-ws-snap-bi)
+- [Info Kurs Counter](https://developers.bri.co.id/id/docs/api-specification-valas-20)
+- [Valas Nego Info](https://developers.bri.co.id/id/docs/api-specification-valas-20)
+- [Check Deal Code](https://developers.bri.co.id/id/docs/api-specification-valas-20)
+- [Transaction Valas](https://developers.bri.co.id/id/docs/api-specification-valas-20)
+- [Transaction Valas Non Nego](https://developers.bri.co.id/id/docs/api-specification-valas-20)
+- [Inquiry Transaction](https://developers.bri.co.id/id/docs/api-specification-valas-20)
+- [Inquiry Limit](https://developers.bri.co.id/id/docs/api-specification-valas-20)
+- [Upload Underlying](https://developers.bri.co.id/id/docs/api-specification-valas-20)
 
 ## List of Content
 - [Instalasi](#instalasi)
   - [Prerequisites](#prerequisites)
   - [How to Setup Project](#how-to-setup-project)
-  - [Payment](#payment)
+  - [Info Kurs Counter](#info-kurs-counter)
+  - [Valas Nego Info](#valas-nego-info)
+  - [Check Deal Code](#check-deal-code)
+  - [Transaction Valas](#transaction-valas)
+  - [Transaction Valas Non Nego](#transaction-valas-non-nego)
+  - [Inquiry Transaction](#inquiry-transaction)
+  - [Inquiry Limit](#inquiry-limit)
+  - [Upload Underlying]()
 - [Caution](#caution)
 - [Disclaimer](#disclaimer)
 
@@ -23,24 +36,93 @@ module:
 ### How to Setup Project
 
 ```bash
-1. copy .env file by typing 'cp .env.example .env' in the terminal
-2. fill the .env file with the required values
-3. run composer install to install all dependencies
+1. run command `cd briapi-template-valas-php` to change directory
+2. copy .env file by typing `cp .env.example .env` in the terminal
+3. fill the .env file with the required values
+4. run composer install to install all dependencies
 ```
 
-### Payment
+### Info Kurs Counter
 ```bash
-1. fill partnerId and channelId
-2. fill partnerServiceId example '   55888'
-3. fill customerNo by default this template give you utils that can generate customerNo
-4. fill inquiryRequestId example 'e3bcb9a2-e253-40c6-aa77-d72cc138b744'
-5. fill value example 100000.00
-6. fill currency by default is IDR
-7. fill trxDateInit by default this template give you utils that can generate it example 2021-11-25T15:01:07+07:00
-8. fill sourceBankCode example 0002
-9. fill passApp example 'b7aee423dc7489dfa868426e5c950c677925'
-10. fill idApp example 'test'
-11. run command `php src/va_online_inquiry.php serve`
+1. fill variable $dealtCurrency, this variable must fill with format currency code (ISO 4217) eg: IDR
+2. fill variable $counterCurrency, this variable must fill with format currency code (ISO 4217) eg: USD
+3. fill variable $partnerCode, eg: 'rxEG1EMYHQZMgb3'
+3. run command `php src/info_kurs_counter.php serve`
+```
+
+### Valas Nego Info
+```bash
+1. fill variable $dealtCurrency, this variable must fill with format currency code (ISO 4217) eg: IDR
+2. fill variable $counterCurrency, this variable must fill with format currency code (ISO 4217) eg: USD
+3. fill variable $partnerCode, eg: 'rxEG1EMYHQZMgb3'
+4. run cammand `php src/valas_nego_info.php serve`
+```
+
+### Check Deal Code
+```bash
+1. fill variable $dealCode, eg: 'O0003540'
+3. fill variable $partnerCode, eg: 'rxEG1EMYHQZMgb3'
+3. run command `php src/check_deal_code.php serve`
+```
+
+### Transaction Valas
+```bash
+1. fill variable $debitAccount, eg: '030702000141509'
+2. fill variable $creditAccount, eg: '034401083104504'
+3. fill variable $dealCode, eg: 'O0003540'
+4. fill variable $remark, eg: '374628374'
+5. fill variable $partnerReferenceNo, eg: '6278163827788'
+6. you can skip variable $underlyingReference, because optional parameter
+7. fill variable $partnerCode, eg: 'rxEG1EMYHQZMgb3'
+8. run command `php src/transaction_valas.php serve`
+```
+
+### Transaction Valas Non Nego
+```bash
+1. fill variable $debitAccount, eg: '030702000141509'
+2. fill variable $creditAccount, eg: '034401083104504'
+3. fill variable $debitCurrency, eg: 'USD'
+4. fill variable $creditCurrency, eg: 'IDR'
+5. fill variable $remark, eg: '374628374'
+6. fill variable $partnerReferenceNo , eg: '7278163827131'
+7. fill variable $debitAmount, eg: '3.00'
+8. fill variable $partnerCode, eg: 'rxEG1EMYHQZMgb3'
+9. run command `php src/transaction_valas_non_nego.php serve`
+```
+
+### Inquiry Transaction
+```bash
+1. fill variable $originalPartnerReferenceNo, eg: '6278163827120'
+2. fill variable $originalReferenceNo, eg: '8757771'
+3. fill variable $partnerCode, eg: 'rxEG1EMYHQZMgb3'
+4. run command `php src/inquiry_transaction.php serve`
+```
+
+### Inquiry Limit
+```bash
+1. fill variable $debitAccount, eg: '020602000008513'
+2. fill variable $partnerCode, eg: 'rxEG1EMYHQZMgb3'
+3. run command `php src/inquiry_limit serve`
+```
+
+### Upload Underlying
+```bash
+1. upload some file into assets (by default have image.png)
+2. fill variable $path to file that uploaded, eg: assets/image.png
+3. fill variable $partnerCode, eg: 'rxEG1EMYHQZMgb3'
+4. run command `php src/upload_underlying.php serve`
+```
+
+## .ENV Example
+you can find consumer key and consumer secret in https://developers.bri.co.id
+
+click menu My Apps then select apps
+
+![developers bri](assets/image.png)
+
+```bash
+CONSUMER_KEY=pqYYBsSc6rHwCqp6o4R8ExmBRubEpqtY 
+CONSUMER_SECRET=idbaNFh0mGSZ7xol
 ```
 
 ## Caution
