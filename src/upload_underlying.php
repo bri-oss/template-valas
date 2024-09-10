@@ -9,7 +9,6 @@ Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . '/..' . '')->load();
 
 require __DIR__ . '/../../briapi-sdk/autoload.php';
 
-
 $clientId = $_ENV['CONSUMER_KEY']; // customer key
 $clientSecret = $_ENV['CONSUMER_SECRET']; // customer secret
 
@@ -31,7 +30,7 @@ $date = new DateTime("now", new DateTimeZone("UTC"));
 $timestamp = $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
 
 $path = ''; // assets/image.png
-$fileName = basename($path);
+$fileName = pathinfo($path, PATHINFO_FILENAME);
 $type = pathinfo($path, PATHINFO_EXTENSION);
 $data = file_get_contents($path);
 $base64 = base64_encode($data);

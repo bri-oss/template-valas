@@ -9,17 +9,11 @@ Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . '/..' . '')->load();
 
 require __DIR__ . '/../../briapi-sdk/autoload.php';
 
-
 $clientId = $_ENV['CONSUMER_KEY']; // customer key
 $clientSecret = $_ENV['CONSUMER_SECRET']; // customer secret
 
 // url path values
 $baseUrl = 'https://sandbox.partner.api.bri.co.id'; //base url
-
-
-// change variables accordingly
-$partnerId = 'feedloop'; //partner id
-$channelId = '12345'; // channel id
 
 $getAccessToken = new GetAccessToken();
 
