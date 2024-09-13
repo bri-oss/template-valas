@@ -29,9 +29,9 @@ $date = new DateTime("now", new DateTimeZone("UTC"));
 
 $timestamp = $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
 
-$dealtCurrency = '';
-$counterCurrency = '';
-$partnerCode = '';
+$dealtCurrency = 'USD';
+$counterCurrency = 'IDR';
+$partnerCode = 'rxEG1EMYHQZMgb3';
 
 $body = [
   'dealtCurrency' => $dealtCurrency,
