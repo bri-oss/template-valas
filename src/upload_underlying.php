@@ -29,7 +29,7 @@ $date = new DateTime("now", new DateTimeZone("UTC"));
 
 $timestamp = $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
 
-$path = ''; // assets/image.png
+$path = 'assets/image.png'; // assets/image.png
 $fileName = pathinfo($path, PATHINFO_FILENAME);
 $type = pathinfo($path, PATHINFO_EXTENSION);
 $data = file_get_contents($path);
@@ -41,7 +41,7 @@ $body = [
   'fileName' => $fileName
 ];
 
-$partnerCode = '';
+$partnerCode = 'rxEG1EMYHQZMgb3';
 
 $response = $valas->uploadUnderlying(
   $clientSecret,
