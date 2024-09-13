@@ -29,9 +29,9 @@ $date = new DateTime("now", new DateTimeZone("UTC"));
 
 $timestamp = $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
 
-$originalPartnerReferenceNo = '';
-$originalReferenceNo = '';
-$partnerCode = '';
+$originalPartnerReferenceNo = '6278163827120';
+$originalReferenceNo = '8757771';
+$partnerCode = 'rxEG1EMYHQZMgb3';
 
 $body = [
   'originalPartnerReferenceNo' => $originalPartnerReferenceNo,
