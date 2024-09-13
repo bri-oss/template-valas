@@ -29,8 +29,8 @@ $date = new DateTime("now", new DateTimeZone("UTC"));
 
 $timestamp = $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
 
-$dealCode = '';
-$partnerCode = '';
+$dealCode = 'O0003540';
+$partnerCode = 'rxEG1EMYHQZMgb3';
 
 $response = $valas->checkDealCode(
   $clientSecret,
