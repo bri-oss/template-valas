@@ -1,5 +1,6 @@
 <?php
 
+use BRI\Util\GenerateRandomString;
 use BRI\Util\GetAccessToken;
 use BRI\Valas\Valas;
 
@@ -29,13 +30,13 @@ $date = new DateTime("now", new DateTimeZone("UTC"));
 
 $timestamp = $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
 
-$debitAccount = '';
-$creditAccount = '';
-$dealCode = '';
-$remark = '';
-$partnerReferenceNo = '';
+$debitAccount = '030702000141509';
+$creditAccount = '034401083104504';
+$dealCode = 'O0003540';
+$remark = '374628374';
+$partnerReferenceNo = (new GenerateRandomString())->generate(13);
 $underlyingReference = ''; // optional
-$partnerCode = '';
+$partnerCode = 'rxEG1EMYHQZMgb3';
 
 $body = [
   'debitAccount' => $debitAccount,
