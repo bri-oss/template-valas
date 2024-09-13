@@ -1,6 +1,8 @@
 <?php
 
+use BRI\Util\GenerateRandomString;
 use BRI\Util\GetAccessToken;
+use BRI\Util\VarNumber;
 use BRI\Valas\Valas;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -29,14 +31,14 @@ $date = new DateTime("now", new DateTimeZone("UTC"));
 
 $timestamp = $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
 
-$debitAccount = '';
-$creditAccount = '';
-$debitCurrency = '';
-$creditCurrency = '';
-$remark = '';
-$partnerReferenceNo = '';
-$debitAmount = ''; // optional
-$partnerCode = '';
+$debitAccount = '030702000141509';
+$creditAccount = '034401083104504';
+$debitCurrency = 'USD';
+$creditCurrency = 'IDR';
+$remark = (new GenerateRandomString())->generate(9);
+$partnerReferenceNo = (string) (new VarNumber())->generateVar(13); //'7278163827131';
+$debitAmount = '3.00'; // optional
+$partnerCode = 'rxEG1EMYHQZMgb3';
 
 $body = [
   'debitAccount' => $debitAccount,
