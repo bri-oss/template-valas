@@ -30,13 +30,13 @@ $date = new DateTime("now", new DateTimeZone("UTC"));
 
 $timestamp = $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
 
-$debitAccount = '030702000141509';
-$creditAccount = '034401083104504';
-$dealCode = 'O0003540';
-$remark = '374628374';
+$debitAccount = '';
+$creditAccount = '';
+$dealCode = '';
+$remark = '';
 $partnerReferenceNo = (new GenerateRandomString())->generate(13);
 $underlyingReference = ''; // optional
-$partnerCode = 'rxEG1EMYHQZMgb3';
+$partnerCode = '';
 
 $body = [
   'debitAccount' => $debitAccount,
