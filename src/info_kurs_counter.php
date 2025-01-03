@@ -5,62 +5,93 @@ use BRI\Valas\Valas;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . '/..' . '')->load();
+Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . '/..')->load();
 
 require __DIR__ . '/../../briapi-sdk/autoload.php';
 
-$clientId = $_ENV['CONSUMER_KEY'] ?? null; // customer key
-$clientSecret = $_ENV['CONSUMER_SECRET'] ?? null; // customer secret
+// Load environment variables and validate credentials
+function getCredentials(): array {
+  $clientId = $_ENV['CONSUMER_KEY'] ?? null;
+  $clientSecret = $_ENV['CONSUMER_SECRET'] ?? null;
 
-if (!$clientId || !$clientSecret) {
-  die('Missing client credentials in environment variables.');
+  if (!$clientId || !$clientSecret) {
+      throw new Exception('Missing client credentials in environment variables.');
+  }
+
+  return [$clientId, $clientSecret];
 }
 
-// url path values
-$baseUrl = 'https://sandbox.partner.api.bri.co.id'; //base url
-
-try {
+// Get Access Token
+function getAccessToken(string $clientId, string $clientSecret, string $baseUrl): string {
   $getAccessToken = new GetAccessToken();
-
-  $accessToken = $getAccessToken->getBRIAPI(
-    $clientId,
-    $clientSecret,
-    $baseUrl
-  );
+  $accessToken = $getAccessToken->getBRIAPI($clientId, $clientSecret, $baseUrl);
 
   if (!$accessToken) {
-    throw new Exception('Failed to retrieve access token.');
+      throw new Exception('Failed to retrieve access token.');
   }
 
+  return $accessToken;
+}
+
+// Get current timestamp in UTC
+function getTimestamp(): string {
   $date = new DateTime("now", new DateTimeZone("UTC"));
+  return $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
+}
 
-  $timestamp = $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
-
-  $dealtCurrency = filter_var('', FILTER_SANITIZE_STRING);
-  $counterCurrency = filter_var('', FILTER_SANITIZE_STRING);
-  $partnerCode = filter_var('', FILTER_SANITIZE_STRING);
-
-  if (
-    empty($dealtCurrency) || 
-    empty($counterCurrency) || 
-    empty($partnerCode)) {
-    throw new Exception('Invalid input parameter variables');
+// Sanitize input parameters
+function sanitizeInput(array $inputs): array {
+  $sanitized = [];
+  foreach ($inputs as $key => $value) {
+      $sanitized[$key] = filter_var($value, FILTER_SANITIZE_STRING);
+      if (empty($sanitized[$key])) {
+          throw new Exception("Invalid input parameter for $key");
+      }
   }
+  return $sanitized;
+}
 
-  $body = [
-    'dealtCurrency' => $dealtCurrency,
-    'counterCurrency' => $counterCurrency,
+// Fetch Valas Info
+function fetchValasInfo(string $clientSecret, string $baseUrl, string $accessToken, string $timestamp, array $body, string $partnerCode): string {
+  $valas = new Valas();
+  return $valas->infoKursCounter($clientSecret, $baseUrl, $accessToken, $timestamp, $body, $partnerCode);
+}
+
+try {
+  // Define base URL
+  $baseUrl = 'https://sandbox.partner.api.bri.co.id';
+
+  // Step 1: Load credentials
+  [$clientId, $clientSecret] = getCredentials();
+
+  // Step 2: Get access token
+  $accessToken = getAccessToken($clientId, $clientSecret, $baseUrl);
+
+  // Step 3: Get timestamp
+  $timestamp = getTimestamp();
+
+  // Step 4: Sanitize inputs
+  $inputs = [
+      'dealtCurrency' => '',  // Replace with actual input
+      'counterCurrency' => '',  // Replace with actual input
+      'partnerCode' => '',  // Replace with actual input
   ];
 
-  $valas = new Valas();
+  $sanitizedInputs = sanitizeInput($inputs);
 
-  $response = $valas->infoKursCounter(
-    $clientSecret,
-    $baseUrl,
-    $accessToken,
-    $timestamp,
-    $body,
-    $partnerCode
+  $body = [
+      'dealtCurrency' => $sanitizedInputs['dealtCurrency'],
+      'counterCurrency' => $sanitizedInputs['counterCurrency'],
+  ];
+
+  // Step 5: Fetch Valas info
+  $response = fetchValasInfo(
+      $clientSecret,
+      $baseUrl,
+      $accessToken,
+      $timestamp,
+      $body,
+      $sanitizedInputs['partnerCode']
   );
 
   echo $response;
