@@ -9,42 +9,58 @@ Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . '/..' . '')->load();
 
 require __DIR__ . '/../../briapi-sdk/autoload.php';
 
-$clientId = $_ENV['CONSUMER_KEY']; // customer key
-$clientSecret = $_ENV['CONSUMER_SECRET']; // customer secret
+$clientId = $_ENV['CONSUMER_KEY'] ?? null; // customer key
+$clientSecret = $_ENV['CONSUMER_SECRET'] ?? null; // customer secret
+
+if (!$clientId || !$clientSecret) {
+    die('Missing client credentials in environment variables.');
+}
 
 // url path values
 $baseUrl = 'https://sandbox.partner.api.bri.co.id'; //base url
 
-$getAccessToken = new GetAccessToken();
+try {
+  $getAccessToken = new GetAccessToken();
 
-$accessToken = $getAccessToken->getBRIAPI(
-  $clientId,
-  $clientSecret,
-  $baseUrl
-);
+  $accessToken = $getAccessToken->getBRIAPI(
+    $clientId,
+    $clientSecret,
+    $baseUrl
+  );
 
-$valas = new Valas();
+  if (!$accessToken) {
+    throw new Exception('Failed to retrieve access token.');
+  }
 
-$date = new DateTime("now", new DateTimeZone("UTC"));
+  $date = new DateTime("now", new DateTimeZone("UTC"));
 
-$timestamp = $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
+  $timestamp = $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
 
-$dealtCurrency = '';
-$counterCurrency = '';
-$partnerCode = '';
+  $dealtCurrency = filter_var('', FILTER_SANITIZE_STRING);
+  $counterCurrency = filter_var('', FILTER_SANITIZE_STRING);
+  $partnerCode = filter_var('', FILTER_SANITIZE_STRING);
 
-$body = [
-  'dealtCurrency' => $dealtCurrency,
-  'counterCurrency' => $counterCurrency,
-];
+  if (empty($dealtCurrency) || empty($counterCurrency) || empty($partnerCode)) {
+    throw new Exception('Invalid input parameter variables');
+  }
 
-$response = $valas->infoKursCounter(
-  $clientSecret,
-  $baseUrl,
-  $accessToken,
-  $timestamp,
-  $body,
-  $partnerCode
-);
+  $body = [
+    'dealtCurrency' => $dealtCurrency,
+    'counterCurrency' => $counterCurrency,
+  ];
 
-echo $response;
+  $valas = new Valas();
+  $response = $valas->infoKursCounter(
+    $clientSecret,
+    $baseUrl,
+    $accessToken,
+    $timestamp,
+    $body,
+    $partnerCode
+  );
+
+  echo $response;
+} catch (Exception $e) {
+  echo 'Error: ' . $e->getMessage();
+  exit(1);
+}
