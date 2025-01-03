@@ -13,7 +13,7 @@ $clientId = $_ENV['CONSUMER_KEY'] ?? null; // customer key
 $clientSecret = $_ENV['CONSUMER_SECRET'] ?? null; // customer secret
 
 if (!$clientId || !$clientSecret) {
-    die('Missing client credentials in environment variables.');
+  die('Missing client credentials in environment variables.');
 }
 
 // url path values
@@ -40,7 +40,10 @@ try {
   $counterCurrency = filter_var('', FILTER_SANITIZE_STRING);
   $partnerCode = filter_var('', FILTER_SANITIZE_STRING);
 
-  if (empty($dealtCurrency) || empty($counterCurrency) || empty($partnerCode)) {
+  if (
+    empty($dealtCurrency) || 
+    empty($counterCurrency) || 
+    empty($partnerCode)) {
     throw new Exception('Invalid input parameter variables');
   }
 
@@ -50,6 +53,7 @@ try {
   ];
 
   $valas = new Valas();
+
   $response = $valas->infoKursCounter(
     $clientSecret,
     $baseUrl,
