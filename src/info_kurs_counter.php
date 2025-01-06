@@ -1,61 +1,6 @@
 <?php
 
-use BRI\Util\GetAccessToken;
-use BRI\Valas\Valas;
-
-require __DIR__ . '/../vendor/autoload.php';
-
-Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . '/..')->load();
-
-require __DIR__ . '/../../briapi-sdk/autoload.php';
-
-// Load environment variables and validate credentials
-function getCredentials(): array {
-  $clientId = $_ENV['CONSUMER_KEY'] ?? null;
-  $clientSecret = $_ENV['CONSUMER_SECRET'] ?? null;
-
-  if (!$clientId || !$clientSecret) {
-      throw new Exception('Missing client credentials in environment variables.');
-  }
-
-  return [$clientId, $clientSecret];
-}
-
-// Get Access Token
-function getAccessToken(string $clientId, string $clientSecret, string $baseUrl): string {
-  $getAccessToken = new GetAccessToken();
-  $accessToken = $getAccessToken->getBRIAPI($clientId, $clientSecret, $baseUrl);
-
-  if (!$accessToken) {
-      throw new Exception('Failed to retrieve access token.');
-  }
-
-  return $accessToken;
-}
-
-// Get current timestamp in UTC
-function getTimestamp(): string {
-  $date = new DateTime("now", new DateTimeZone("UTC"));
-  return $date->format('Y-m-d\TH:i:s') . '.' . substr($date->format('u'), 0, 3) . 'Z';
-}
-
-// Sanitize input parameters
-function sanitizeInput(array $inputs): array {
-  $sanitized = [];
-  foreach ($inputs as $key => $value) {
-      $sanitized[$key] = filter_var($value, FILTER_SANITIZE_STRING);
-      if (empty($sanitized[$key])) {
-          throw new Exception("Invalid input parameter for $key");
-      }
-  }
-  return $sanitized;
-}
-
-// Fetch Valas Info
-function fetchValasInfo(string $clientSecret, string $baseUrl, string $accessToken, string $timestamp, array $body, string $partnerCode): string {
-  $valas = new Valas();
-  return $valas->infoKursCounter($clientSecret, $baseUrl, $accessToken, $timestamp, $body, $partnerCode);
-}
+include 'utils.php';
 
 try {
   // Define base URL
@@ -84,8 +29,8 @@ try {
       'counterCurrency' => $sanitizedInputs['counterCurrency'],
   ];
 
-  // Step 5: Fetch Valas info
-  $response = fetchValasInfo(
+  // Step 5: Fetch Valas info kurs counter
+  $response = fetchValasInfoKursCounter(
       $clientSecret,
       $baseUrl,
       $accessToken,
