@@ -2,6 +2,9 @@
 
 include 'utils.php';
 
+header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
+header('Content-Type: application/json'); // Ensure all responses are JSON
+
 try {
   // Step 1: Load client credentials
   [$clientId, $clientSecret] = getCredentials();
@@ -17,25 +20,40 @@ try {
 
   // Step 5: Sanitize and validate input
   $inputs = [
-      'debitAccount' => '',  // Replace with actual input
-      'partnerCode' => '',   // Replace with actual input
+    'debitAccount' => '',  // Replace with actual input
+    'partnerCode' => '',   // Replace with actual input
   ];
 
   $validatedInputs = sanitizeInput($inputs);
 
   // Step 6: Perform inquiry limit
   $response = fetchValasInquiryLimit(
-      $clientSecret,
-      $baseUrl,
-      $accessToken,
-      $timestamp,
-      $validatedInputs['debitAccount'],
-      $validatedInputs['partnerCode']
+    $clientSecret,
+    $baseUrl,
+    $accessToken,
+    $timestamp,
+    $validatedInputs['debitAccount'],
+    $validatedInputs['partnerCode']
   );
 
   // Output response
-  echo $response;
+  echo htmlspecialchars($response, ENT_QUOTES, 'UTF-8');
+}  catch (InvalidArgumentException $e) {
+  // Return a generic error message to the client
+  http_response_code(400); // Bad Request
+
+  // Log the error for debugging
+  error_log('InvalidArgumentException: ' . $e->getMessage());
+} catch (RuntimeException $e) {
+  // Return a generic error message to the client
+  http_response_code(500); // Internal Server Error
+
+  // Log the error for debugging
+  error_log('RuntimeException: ' . $e->getMessage());
 } catch (Exception $e) {
-  echo 'Error: ' . $e->getMessage();
-  exit(1);
+  // Return a generic error message to the client
+  http_response_code(500); // Internal Server Error
+
+  // Log any other unexpected errors for debugging
+  error_log('UnexpectedException: ' . $e->getMessage());
 }
