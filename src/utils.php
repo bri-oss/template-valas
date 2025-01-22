@@ -1,6 +1,8 @@
 <?php
 
+use BRI\Util\ExecuteCurlRequest;
 use BRI\Util\GetAccessToken;
+use BRI\Util\PrepareRequest;
 use BRI\Valas\Valas;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -65,8 +67,22 @@ function validateFileUploadInputs(string $path, string $partnerCode): array {
 }
 
 // Fetch Valas Info
-function fetchValasInfoKursCounter(string $clientSecret, string $baseUrl, string $accessToken, string $timestamp, array $body, string $partnerCode): string {
-  $valas = new Valas();
+function fetchValasInfoKursCounter(
+  string $clientSecret,
+  string $baseUrl,
+  string $accessToken,
+  string $timestamp,
+  array $body,
+  string $partnerCode
+): string {
+  $executeCurlRequest = new ExecuteCurlRequest();
+  $prepareRequest = new PrepareRequest();
+
+  $valas = new Valas(
+    $executeCurlRequest,
+    $prepareRequest
+  );
+
   return $valas->infoKursCounter($clientSecret, $baseUrl, $accessToken, $timestamp, $body, $partnerCode);
 }
 
@@ -79,7 +95,13 @@ function fetchValasCheckDealCode(
     string $dealCode,
     string $partnerCode
 ): string {
-  $valas = new Valas();
+  $executeCurlRequest = new ExecuteCurlRequest();
+  $prepareRequest = new PrepareRequest();
+
+  $valas = new Valas(
+    $executeCurlRequest,
+    $prepareRequest
+  );
   return $valas->checkDealCode($clientSecret, $baseUrl, $accessToken, $timestamp, $dealCode, $partnerCode);
 }
 
@@ -94,7 +116,14 @@ function fetchValasInquiryLimit(
     string $debitAccount,
     string $partnerCode
 ): string {
-  $valas = new Valas();
+  $executeCurlRequest = new ExecuteCurlRequest();
+  $prepareRequest = new PrepareRequest();
+
+  $valas = new Valas(
+    $executeCurlRequest,
+    $prepareRequest
+  );
+
   return $valas->inquiryLimit($clientSecret, $baseUrl, $accessToken, $timestamp, $debitAccount, $partnerCode);
 }
 
@@ -109,7 +138,14 @@ function fetchValasInquiryTransaction(
     array $body,
     string $partnerCode
 ): string {
-  $valas = new Valas();
+  $executeCurlRequest = new ExecuteCurlRequest();
+  $prepareRequest = new PrepareRequest();
+
+  $valas = new Valas(
+    $executeCurlRequest,
+    $prepareRequest
+  );
+
   return $valas->inquiryTransaction($clientSecret, $baseUrl, $accessToken, $timestamp, $body, $partnerCode);
 }
 
@@ -124,7 +160,14 @@ function fetchValasTransactionValasNonNego(
     array $body,
     string $partnerCode
 ): string {
-  $valas = new Valas();
+  $executeCurlRequest = new ExecuteCurlRequest();
+  $prepareRequest = new PrepareRequest();
+
+  $valas = new Valas(
+    $executeCurlRequest,
+    $prepareRequest
+  );
+
   return $valas->transactionValasNonNego($clientSecret, $baseUrl, $accessToken, $timestamp, $body, $partnerCode);
 }
 
@@ -139,7 +182,14 @@ function fetchValasTransactionValas(
     array $body,
     string $partnerCode
 ): string {
-  $valas = new Valas();
+  $executeCurlRequest = new ExecuteCurlRequest();
+  $prepareRequest = new PrepareRequest();
+
+  $valas = new Valas(
+    $executeCurlRequest,
+    $prepareRequest
+  );
+
   return $valas->transactionValas($clientSecret, $baseUrl, $accessToken, $timestamp, $body, $partnerCode);
 }
 
@@ -154,7 +204,14 @@ function fetchValasUploadUnderlying(
     string $partnerCode,
     array $body
 ): string {
-  $valas = new Valas();
+  $executeCurlRequest = new ExecuteCurlRequest();
+  $prepareRequest = new PrepareRequest();
+
+  $valas = new Valas(
+    $executeCurlRequest,
+    $prepareRequest
+  );
+
   return $valas->uploadUnderlying($clientSecret, $baseUrl, $accessToken, $timestamp, $partnerCode, $body);
 }
 
@@ -169,6 +226,13 @@ function fetchValasNegoInfo(
     array $body,
     string $partnerCode
 ): string {
-  $valas = new Valas();
+  $executeCurlRequest = new ExecuteCurlRequest();
+  $prepareRequest = new PrepareRequest();
+
+  $valas = new Valas(
+    $executeCurlRequest,
+    $prepareRequest
+  );
+
   return $valas->valasNegoInfo($clientSecret, $baseUrl, $accessToken, $timestamp, $body, $partnerCode);
 }
