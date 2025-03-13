@@ -44,16 +44,16 @@ module:
 
 ### Info Kurs Counter
 ```bash
-1. fill variable $dealtCurrency, this variable must fill with format currency code (ISO 4217) eg: IDR
-2. fill variable $counterCurrency, this variable must fill with format currency code (ISO 4217) eg: USD
+1. fill variable $dealtCurrency, this variable must fill with format currency code (ISO 4217) eg: USD
+2. fill variable $counterCurrency, this variable must fill with format currency code (ISO 4217) eg: IDR
 3. fill variable $partnerCode, eg: 'rxEG1EMYHQZMgb3'
 3. run command `php src/info_kurs_counter.php serve`
 ```
 
 ### Valas Nego Info
 ```bash
-1. fill variable $dealtCurrency, this variable must fill with format currency code (ISO 4217) eg: IDR
-2. fill variable $counterCurrency, this variable must fill with format currency code (ISO 4217) eg: USD
+1. fill variable $dealtCurrency, this variable must fill with format currency code (ISO 4217) eg: USD
+2. fill variable $counterCurrency, this variable must fill with format currency code (ISO 4217) eg: IDR
 3. fill variable $partnerCode, eg: 'rxEG1EMYHQZMgb3'
 4. run cammand `php src/valas_nego_info.php serve`
 ```

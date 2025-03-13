@@ -18,8 +18,8 @@ try {
 
   // Step 4: Sanitize and validate input
   $inputs = [
-    'dealCode' => 'IDR',  // Replace with actual input
-    'partnerCode' => 'USD',  // Replace with actual input
+    'dealCode' => '',  // Replace with actual input
+    'partnerCode' => '',  // Replace with actual input
   ];
 
   $sanitizedInputs = sanitizeInput($inputs);
@@ -34,7 +34,7 @@ try {
     $sanitizedInputs['partnerCode']
   );
 
-  echo htmlspecialchars($response, ENT_QUOTES, 'UTF-8');
+  echo $response;
 } catch (InvalidArgumentException $e) {
   // Return a generic error message to the client
   http_response_code(400); // Bad Request
