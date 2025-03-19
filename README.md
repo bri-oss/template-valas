@@ -72,7 +72,7 @@ module:
 3. fill variable $dealCode, eg: 'O0003540'
 4. fill variable $remark, eg: '374628374'
 5. fill variable $partnerReferenceNo, eg: '6278163827788'
-6. you can skip variable $underlyingReference, because optional parameter
+6. you can skip variable $underlyingReference, eg: '12345', because optional parameter
 7. fill variable $partnerCode, eg: 'rxEG1EMYHQZMgb3'
 8. run command `php src/transaction_valas.php serve`
 ```
@@ -92,8 +92,8 @@ module:
 
 ### Inquiry Transaction
 ```bash
-1. fill variable $originalPartnerReferenceNo, eg: '6278163827120'
-2. fill variable $originalReferenceNo, eg: '8757771'
+1. fill variable $originalPartnerReferenceNo, eg: '6278163432827927'
+2. fill variable $originalReferenceNo, eg: '8535101'
 3. fill variable $partnerCode, eg: 'rxEG1EMYHQZMgb3'
 4. run command `php src/inquiry_transaction.php serve`
 ```

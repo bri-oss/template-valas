@@ -30,7 +30,7 @@ try {
     'debitAmount' => '', // Replace with actual input
     'partnerCode' => '', // Replace with actual input
     'remark' => (new GenerateRandomString())->generate(9),
-    'partnerReferenceNo' => (string) (new VarNumber())->generateVar(13)
+    'partnerReferenceNo' => ''//(string) (new VarNumber())->generateVar(13)
   ];
 
   $validatedInputs = sanitizeInput($inputs);

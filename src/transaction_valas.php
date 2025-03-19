@@ -27,9 +27,10 @@ try {
     'dealCode' => '',
     'remark' => '',
     'partnerReferenceNo' => (new GenerateRandomString())->generate(13),
-    'underlyingReference' => '', // optional
     'partnerCode' => '' // Replace with actual input
   ];
+
+  $underlyingReference = ''; // optional
 
   $validatedInputs = sanitizeInput($inputs);
 
@@ -40,7 +41,7 @@ try {
     'dealCode' => $validatedInputs['dealCode'],
     'remark' => $validatedInputs['remark'],
     'partnerReferenceNo' => $validatedInputs['partnerReferenceNo'],
-    'underlyingReference' => $validatedInputs['underlyingReference']
+    'underlyingReference' => $underlyingReference
   ];
 
   // Step 7: Perform transaction Valas
