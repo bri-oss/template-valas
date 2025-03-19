@@ -83,8 +83,8 @@ module:
 2. fill variable $creditAccount, eg: '034401083104504'
 3. fill variable $debitCurrency, eg: 'USD'
 4. fill variable $creditCurrency, eg: 'IDR'
-5. fill variable $remark, eg: '374628374'
-6. fill variable $partnerReferenceNo , eg: '7278163827131'
+5. fill variable $remark, you can generate with (new GenerateRandomString())->generate(9)
+6. fill variable $partnerReferenceNo, you can generate with (string) (new VarNumber())->generateVar(13)
 7. fill variable $debitAmount, eg: '3.00'
 8. fill variable $partnerCode, eg: 'rxEG1EMYHQZMgb3'
 9. run command `php src/transaction_valas_non_nego.php serve`
